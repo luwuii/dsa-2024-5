@@ -69,24 +69,23 @@ public class ArrayQueue<Item>
   @Override
   public void enqueue(Item item)
   {
-    // TODO: Implement ArrayQueue.enqueue(Item item)
-    throw new TODO();
+    // add to end of queue
+    this.items.insertLast(item);
   }
 
   @Override
   public Item dequeue()
     throws NoSuchElementException
   {
-    // TODO: Implement ArrayQueue.dequeue()
-    throw new TODO();
+    //remove from front of queue
+    return this.items.removeFirst();
   }
 
   @Override
   public Item front()
     throws NoSuchElementException
   {
-    // TODO: Implement ArrayQueue.front()
-    throw new TODO();
+    return this.items.first();
   }
 
   @Override

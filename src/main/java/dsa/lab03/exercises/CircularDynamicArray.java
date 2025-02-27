@@ -191,12 +191,36 @@ public class CircularDynamicArray<Item>
         this.resize(this.capacity() * 2);
       }
     }
+
+    /*
     // loop through array shift everything 1 spot to leave empty gap
     for (int i = this.size; i > index; i--)
     {
       //copy element from i to i + 1
       this.items[this.index(i+1)] = this.items[this.index(i)];
     }
+    */
+
+    // if in the second half of  array
+    if (index < this.size/2){
+      // move start pointer 1 back
+      this.start = this.index(-1);
+      //loop from index 0 and shift right
+      for (int i = 0; i < index; i++)
+      {
+        //copy element from i to i + 1
+        this.items[this.index(i)] = this.items[this.index(i + 1 )];
+      }
+    }else //if in first half of array
+    {
+      // start at end of array and shift left
+      for (int i = this.size -1 ; i >= index; i--)
+      {
+        //copy element from i + 1 to i
+        this.items[this.index(i+1)] = this.items[this.index(i)];
+      }
+    }
+
     //add to array
     this.items[this.index(index)] = item;
     this.size++;

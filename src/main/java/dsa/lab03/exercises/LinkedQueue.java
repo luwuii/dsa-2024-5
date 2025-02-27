@@ -55,24 +55,21 @@ public class LinkedQueue<Item>
   @Override
   public void enqueue(Item item)
   {
-    // TODO: Implement LinkedQueue.enqueue(Item item)
-    throw new TODO();
+    this.items.insertLast(item);
   }
 
   @Override
   public Item dequeue()
     throws NoSuchElementException
   {
-    // TODO: Implement LinkedQueue.dequeue()
-    throw new TODO();
+    return this.items.removeFirst();
   }
 
   @Override
   public Item front()
     throws NoSuchElementException
   {
-    // TODO: Implement LinkedQueue.front()
-    throw new TODO();
+      return this.items.first();
   }
 
   @Override
