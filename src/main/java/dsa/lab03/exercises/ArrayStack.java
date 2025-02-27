@@ -70,24 +70,24 @@ public class ArrayStack<Item>
   @Override
   public void push(Item item)
   {
-    // TODO: Implement ArrayStack.push(Item item)
-    throw new TODO();
+    // inserts item to the top of the stack
+    this.items.insertLast(item);
   }
 
   @Override
   public Item pop()
     throws NoSuchElementException
   {
-    // TODO: Implement ArrayStack.pop()
-    throw new TODO();
+    // removes item from top of the stack+ return the item
+    return this.items.removeLast();
   }
 
   @Override
   public Item top()
     throws NoSuchElementException
   {
-    // TODO: Implement ArrayStack.top()
-    throw new TODO();
+    //return item on the top of the stack
+    return this.items.last();
   }
 
   @Override

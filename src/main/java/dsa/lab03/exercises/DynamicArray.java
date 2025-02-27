@@ -161,8 +161,24 @@ public class DynamicArray<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement DynamicArray.insert(int index, Item item)
-    throw new TODO();
+    //if the size of the array is = to the capacity of the array
+    //capacity needs to increase
+    if (this.size == this.capacity()){
+      //if array is empty resize to size 1
+      if (this.size == 0){
+        this.resize(1);
+      }
+      // double size of array
+      this.resize(this.capacity()*2);
+    }
+    //go through nodes starting at this.size going backwards until index is reached
+    for (int i = this.size; i > index; i--)
+    {
+      this.items[i] = this.items[i - 1];
+    }
+    //inserts item to items[index]
+    this.items[index] = item;
+    this.size++;
   }
 
   @Override
@@ -173,7 +189,26 @@ public class DynamicArray<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement DynamicArray.remove(index)
-    throw new TODO();
+    //get item at the index from the array
+    Item item = this.items[index];
+    //decrease size of list
+    this.size--;
+    //loop from index to end of list
+    for (int i = index; i < this.size; i++)
+    {
+      //set the item at i+1 into  the position i (shift items to the left)
+      this.items[i] = this.items[i + 1];
+    }
+    //after shifting all items set last position to null
+    this.items[this.size] = null;
+
+    //resizing
+    //if size of array is less than or equal to 1/4 of capacity then half current capacity
+    if (this.size <= this.capacity() / 4) {
+      this.resize(this.capacity()/2);
+    }
+
+    return item;
+
   }
 }

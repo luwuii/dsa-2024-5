@@ -47,8 +47,7 @@ public class Array<Item>
   @Override
   public int size()
   {
-    // TODO: Implement Array.size()
-    throw new TODO();
+    return this.items.length;
   }
 
   @Override

@@ -40,8 +40,7 @@ public class StringArray
   @Override
   public int size()
   {
-    // TODO: Implement StringArray.size()
-    throw new TODO();
+    return this.strings.length;
   }
 
   @Override

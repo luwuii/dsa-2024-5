@@ -71,8 +71,24 @@ public class SinglyLinkedList<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement SinglyLinkedList.node(int index)
-    throw new TODO();
+    // checks if index == to size of list - 1
+    // determines if index is at last point in list
+    if (index == this.size - 1)
+    {
+      // returns last node in list
+      return this.last;
+    }
+    //create a node variable as the first point in list
+    Node<Item> node = this.first;
+    // for loop from 0 -> index
+    //loops thru til at the node of the specified index
+    for (int i = 0; i < index; i++)
+    {
+      node = node.next;
+    }
+    //returns node at this index
+    return node;
+
   }
 
   @Override
@@ -83,8 +99,29 @@ public class SinglyLinkedList<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement SinglyLinkedList.insert(int index, Item item)
-    throw new TODO();
+    //checks if the list is empty
+    if (this.isEmpty()){
+      // creates a new node with the given item
+      // since list is empty set new node to first and last node in list
+      this.first = this.last = new Node<>(this,item);
+      this.size = 1; // initialises size to 1
+    }
+    // else if given index is 0
+    else if (index == 0){
+      //create new node and set it to first item in  the list
+      // set the nodes next pointer to current first node
+      this.first = new Node<>(this, item, this.first);
+      //increment size of list
+      this.size++;
+    }
+    else
+    {
+      // finds node at position index -1
+      //then calls insertnext to insert the new node into the spot after index -1
+      this.node(index - 1).insertNext(item);
+
+    }
+
   }
 
   @Override
@@ -95,8 +132,19 @@ public class SinglyLinkedList<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement SinglyLinkedList.remove(int index)
-    throw new TODO();
+    if (this.isEmpty())
+    {
+      throw new IndexOutOfBoundsException();
+    }
+    //if index = 0
+    if (index == 0){
+      // if nodes index = 0 then remove first item in list
+      return this.first.remove();
+    }
+    else{
+      // finds the node at index -1 and then calls removenext method
+      return this.node(index - 1).removeNext();
+    }
   }
 
   /**
@@ -180,23 +228,43 @@ public class SinglyLinkedList<Item>
     @Override
     public void insertPrevious(Item item)
     {
-      // TODO: Implement SinglyLinkedList.Node.insertPrevious(Item item)
-      throw new TODO();
+      //create a new node object
+      Node<Item> node = new Node<Item>(this.list, item, this);
+      //if current node is first node, if true set new node as first node
+      if(this.isFirst()){
+        this.list.first = node;
+      }else {//if not first node set next reference
+        this.previous().next = node;
+      }
+      this.list.size++;
+
+
     }
 
     @Override
     public void insertNext(Item item)
     {
-      // TODO: Implement SinglyLinkedList.Node.insertNext(Item item)
-      throw new TODO();
+      //changes this.next into our new node item we just added
+      this.next = new Node<Item>(this.list, item, this.next);
+      //checks if this is the last node
+      if (this.isLast()){
+        //sets last item in the list as the item we just added
+        this.list.last = this.next;
+      }
+      //imcrement list size
+      this.list.size++;
+
     }
 
     @Override
     public Item remove()
     {
+      //if this node is first node
       if (this.isFirst())
       {
+        //sets first node to next node
         this.list.first = this.next;
+        //decrease list size
         this.list.size--;
         return this.item;
       }
@@ -233,8 +301,18 @@ public class SinglyLinkedList<Item>
       {
         throw new NoSuchElementException();
       }
-      // TODO: Implement SinglyLinkedList.Node.removeNext()
-      throw new TODO();
+      //checks if next node is the last node in the list
+      if(this.next.isLast()){
+        //if next node is last in list update last reference to current node(this)
+        this.list.last = this;
+      }
+      //retrieve next item and assigns it to variable deleted
+      Item deleted = this.next.item;
+      //updates next pointer reference to the node after next pointer
+      this.next = this.next.next;
+      //returns removed value
+      this.list.size--;
+      return deleted;
     }
   }
 

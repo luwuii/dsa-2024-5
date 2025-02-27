@@ -2,6 +2,7 @@ package dsa.lab02.exercises;
 
 import dsa.lab02.base.LinkedList;
 import dsa.lab02.base.LinkedNode;
+import dsa.lab02.solutions.SinglyLinkedList;
 import dsa.lib.TODO;
 
 import java.util.Arrays;
@@ -64,6 +65,8 @@ public class DoublyLinkedList<Item>
   }
 
   @Override
+  //more efficient implementation bc if index in first half of list start search from beginning
+  // and if in 2nd half start search from the end
   public Node<Item> node(int index)
     throws IndexOutOfBoundsException
   {
@@ -71,8 +74,31 @@ public class DoublyLinkedList<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement DoublyLinkedList.node(int index);
-    throw new TODO();
+    // creates a new node variable
+    Node<Item> node;
+    //if index is in first half of list
+    if (index < this.size / 2){
+      //sets new node to first
+      node = this.first;
+      //set node to the node at the index
+      for (int i = 0; i < index; i++)
+      {
+        node = node.next();
+      }
+    }
+    else{
+      // if index is in second half of list
+      //set node to last item in list
+      node = this.last;
+      // get distance from last node to the given index
+      int fromIndex = this.size - 1 - index;
+      //loop through from last node until the node at the index
+      for (int i = 0; i < fromIndex; i++)
+      {
+        node = node.previous();
+      }
+    }
+    return node;
   }
 
   @Override
@@ -83,8 +109,31 @@ public class DoublyLinkedList<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement DoublyLinkedList.insert(int index, Item item);
-    throw new TODO();
+    //checks if list is empty
+    if (this.isEmpty())
+    {
+      //if the list is empty
+      //create a new node with given item
+      // since only node in list set it to first and last
+      this.first = this.last = new Node<>(this, item);
+      this.size = 1;
+    }
+    else if (index == this.size)
+    {
+      // if index is == to size of list
+      // if we are inserting into end of list
+      // creates a new node with given item and sets it to last
+      this.last =  new Node<>(this, this.last, item);
+      // updates the next reference for the old last node to the new last node;
+      this.last.previous.next = this.last;
+      //increase list size
+      this.size++;
+    }
+    else{
+      // if the index not in the 1st or last of list
+      // call insert previous method
+      this.node(index).insertPrevious(item);
+    }
   }
 
   @Override
@@ -95,8 +144,7 @@ public class DoublyLinkedList<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement DoublyLinkedList.remove(int index);
-    throw new TODO();
+    return this.node(index).remove();
   }
 
   /**
@@ -202,22 +250,64 @@ public class DoublyLinkedList<Item>
     @Override
     public void insertPrevious(Item item)
     {
-      // TODO: Implement DoublyLinkedList.Node.insertPrevious(Item item);
-      throw new TODO();
+      //create a new node with given item
+      //sets it as previous node of current node
+      //passes the list
+      //pass current nodes previous node,
+      //pass old node
+      // pass the current node
+      this.previous = new Node<>(this.list, this.previous, item, this);
+      //if current node is now first node update first reference to new node
+      if (this.isFirst()){
+        this.list.first = this.previous;
+      }//if current nod is not first node
+      else{
+        //update next reference of node before new node to point to the new node
+        this.previous.previous.next = this.previous;
+      }
+      //increment list size
+      this.list.size++;
+
     }
 
     @Override
     public void insertNext(Item item)
     {
-      // TODO: Implement DoublyLinkedList.Node.insertNext(Item item);
-      throw new TODO();
+      //create new node with given item
+      //set it as node after current node
+      this.next = new Node<>(this.list, this, item , this.next);
+      if (this.isLast()){
+        // sets last item in list as new node
+        this.list.last = this.next;
+      }else{
+        //sets the previous reference of one after new node to the new node
+        this.next.next.previous = this.next;
+      }
+      this.list.size++;
     }
 
     @Override
     public Item remove()
     {
-      // TODO: Implement DoublyLinkedList.Node.remove();
-      throw new TODO();
+      // if the item to be removed is first in list set the first reference to the next node
+      if (this.isFirst())
+      {
+        this.list.first = this.next;
+      }
+      else {
+        //set the next reference of the previous node to the next reference of the current node
+        this.previous.next = this.next;
+      }
+      // if last item is removed set the last reference to 2nd last node (now last node)
+      if (this.isLast()){
+        this.list.last = this.previous;
+      }
+      else {
+        // set previous reference of the next node to previous reference of current node
+        this.next.previous = this.previous;
+      }
+      this.list.size--;
+      return this.item;
     }
 
     @Override

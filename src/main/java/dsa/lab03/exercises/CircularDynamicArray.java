@@ -123,10 +123,9 @@ public class CircularDynamicArray<Item>
    */
   private int index(int index)
   {
-    // TODO: Implement CircularDynamicArray.index(int index)
-    // NOTE: You don't _have_ to implement this method, but you'll likely find
-    //       it very useful for implementing the other methods in this class.
-    throw new TODO();
+    int capacity = this.capacity();
+    // adds capacity of array +start  + given index and mod it w capacity to find the backing index of the item
+    return (index + this.start + capacity) % capacity;
   }
 
   @Override
@@ -137,8 +136,8 @@ public class CircularDynamicArray<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement CircularDynamicArray.get(int index)
-    throw new TODO();
+    //return value at index (calls index function to get item at backing index)
+    return this.items[this.index(index)];
   }
 
   @Override
@@ -149,8 +148,8 @@ public class CircularDynamicArray<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement CircularDynamicArray.set(int index, Item item)
-    throw new TODO();
+    // set value at the backing index to item given
+    this.items[this.index(index)] = item;
   }
 
   /**
@@ -184,8 +183,23 @@ public class CircularDynamicArray<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement CircularDynamicArray.insert(int index, Item item)
-    throw new TODO();
+    // resize if full
+    if (this.size == this.capacity()){
+      if (this.size == 0){
+        this.resize(1);
+      }else {
+        this.resize(this.capacity() * 2);
+      }
+    }
+    // loop through array shift everything 1 spot to leave empty gap
+    for (int i = this.size; i > index; i--)
+    {
+      //copy element from i to i + 1
+      this.items[this.index(i+1)] = this.items[this.index(i)];
+    }
+    //add to array
+    this.items[this.index(index)] = item;
+    this.size++;
   }
 
   @Override
@@ -196,7 +210,20 @@ public class CircularDynamicArray<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement CircularDynamicArray.remove(int index)
-    throw new TODO();
+    //item we are removing
+    Item item = this.items[index];
+    this.size--;
+    //loop through array starting at index
+    //shift everything to left
+    for (int i = index; i < this.size; i++)
+    {
+      this.items[i] = this.items[i+1];
+    }
+    // if size of array is 1/4 of the capacity then half capacity
+    if (this.size <= this.capacity()/4)
+    {
+      this.resize(this.capacity() / 2);
+    }
+    return item;
   }
 }

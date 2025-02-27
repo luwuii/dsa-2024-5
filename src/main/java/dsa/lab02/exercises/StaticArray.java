@@ -117,8 +117,22 @@ public class StaticArray<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement StaticArray.insert(int index, Item item)
-    throw new TODO();
+    //create a new array
+    Item[] newArray = (Item[]) new Object[this.items.length + 1];
+    // loops thru array
+    for (int i = 0, j = 0; i < newArray.length; i++)
+    {
+      if (i == index){// if i = index replace that index w item
+        newArray[i] = item;
+      }else {
+        newArray[i] = this.items[j]; // else add the jth item from the old array into the new array and increment
+        j++;
+      }
+    }
+    //replace old array w new array
+    this.items = newArray;
+
+
   }
 
   @Override
@@ -130,7 +144,22 @@ public class StaticArray<Item>
     {
       throw new IndexOutOfBoundsException();
     }
-    // TODO: Implement StaticArray.remove(int index)
-    throw new TODO();
+    Item removedItem = this.items[index];
+    // copy to new array (length.items-1) except for item at index
+    Item[] newArray = (Item[]) new Object[this.size()- 1];
+    // before item we want to remove
+    for (int i = 0; i < index; i++)
+    {
+        newArray[i] = this.items[i];
+    }
+    for (int i = index; i < newArray.length; i++){
+      newArray[i] = this.items[i+1];
+    }
+
+
+    this.items = newArray;
+    return removedItem;
+
   }
+
 }

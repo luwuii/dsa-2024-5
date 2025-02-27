@@ -55,24 +55,21 @@ public class LinkedStack<Item>
   @Override
   public void push(Item item)
   {
-    // TODO: Implement LinkedStack.push(Item item)
-    throw new TODO();
+    this.items.insertFirst(item);
   }
 
   @Override
   public Item pop()
     throws NoSuchElementException
   {
-    // TODO: Implement LinkedStack.pop()
-    throw new TODO();
+    return this.items.removeFirst();
   }
 
   @Override
   public Item top()
     throws NoSuchElementException
   {
-    // TODO: Implement LinkedStack.top()
-    throw new TODO();
+    return this.items.first();
   }
 
   @Override
