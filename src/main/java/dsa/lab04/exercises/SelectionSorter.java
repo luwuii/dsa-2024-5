@@ -17,9 +17,24 @@ public class SelectionSorter
     StaticSequence<Item> items,
     Comparator<Item> comparator)
   {
-    // TODO: Implement SelectionSorter.sort(
-    //                   StaticSequence<Item> items,
-    //                   Comparator<Item> comparator)
-    throw new TODO();
+    //find minimum item
+    //swap it into ith entry in array
+    int size = items.size();
+    for (int i = 0; i < size-1; i++)
+    {
+      int min = i;
+      for (int j = i+1; j < size; j++)
+      {
+        if (comparator.compare(items.get(j), items.get(min)) < 0){
+          min = j;
+        }
+      }
+      items.swap (i,min);
+
+    }
+
+
+
   }
+
 }

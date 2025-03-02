@@ -74,12 +74,21 @@ public class BinarySearcher
     int start,
     int stop)
   {
-    // TODO: Implement BinarySearcher.search(
-    //                   StaticSequence<Item> items,
-    //                   Comparator<Item> comparator,
-    //                   Item item,
-    //                   int start,
-    //                   int stop)
-    throw new TODO();
+
+    if (start >= stop){
+      return -1;
+    }
+    int mid = (start + stop) / 2;
+    //if item is less than middle (in left half of array)
+    if (comparator.compare(item, items.get(mid)) < 0){
+      //call function again
+      return this.search(items, comparator, item, start, mid);
+    }
+    //if item is in right half of array
+    if (comparator.compare(item, items.get(mid)) > 0){
+      return this.search(items, comparator, item, mid+1, stop);
+    }
+    //when comparator.compare(item, items.get(mid)) = 0 because item at mid is = to item
+    return mid;
   }
 }

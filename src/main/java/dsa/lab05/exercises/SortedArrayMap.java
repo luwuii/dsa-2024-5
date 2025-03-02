@@ -114,8 +114,26 @@ public class SortedArrayMap<Key extends Comparable<Key>, Value>
     {
       return start;
     }
-    // TODO: Implement SortedArrayMap.indexFor(Key key, int start, int stop)
-    throw new TODO();
+    // find middle index
+    int mid = (start + stop) / 2;
+    //compare key with the key of item at mid index
+    //if key is smaller than this.items.get(mid).key() then compare is -ve
+    //if key is larger than this.items.get(mid).key() then compare is +ve
+    int compare = key.compareTo(this.items.get(mid).key());
+    if (compare < 0)
+    {
+      //call function again in first half
+      return this.indexFor(key, start, mid);
+    }
+    if (compare > 0)
+    {
+      //call function again in second half
+      return this.indexFor(key, mid+1, stop);
+    }
+    // if compare = 0 then key is = this.items.get(mid).key()
+    return mid;
+
+
   }
 
   /**

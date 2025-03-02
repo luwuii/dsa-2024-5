@@ -1,5 +1,6 @@
 package dsa.lab04.exercises;
 
+import com.sun.corba.se.spi.ior.ObjectKey;
 import dsa.lab03.solutions.DynamicArray;
 import dsa.lab04.base.Map;
 import dsa.lab04.base.MapItem;
@@ -7,6 +8,7 @@ import dsa.lib.TODO;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * An (unsorted) array map.
@@ -88,8 +90,14 @@ public class ArrayMap<Key, Value>
    */
   private int indexOf(Key key)
   {
-    // TODO: Implement ArrayMap.indexOf(Key key)
-    throw new TODO();
+    int size = this.size();
+    for (int i = 0; i < size; i++)
+    {
+      if (Objects.equals(key, this.items.get(i).key())){
+        return i;
+      }
+    }
+    return -1;
   }
 
   @Override
