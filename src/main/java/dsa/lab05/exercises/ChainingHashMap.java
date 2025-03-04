@@ -105,12 +105,16 @@ public class ChainingHashMap<Key, Value>
     return this.size;
   }
 
+  private ArrayMap<Key, Value> chain(Key key)
+  {
+    return this.chains[this.hashFunction.hash(key)];
+  }
+
   @Override
   public MapItem<Key, Value> find(Key key)
     throws NoSuchElementException
   {
-    // TODO: Implement ChainingHashMap.find(Key key)
-    throw new TODO();
+    return this.chain(key).find(key);
   }
 
   @SuppressWarnings("unchecked")
