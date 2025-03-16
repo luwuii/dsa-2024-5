@@ -482,8 +482,15 @@ public class BinaryTree<Item>
      */
     public int level()
     {
-      // TODO: Implement BinaryTree.Node.level()
-      return 0;
+      // parents level + 1
+      if (this.hasParent())
+      {
+        return this.parent.level() + 1;
+      }
+      else // if no parent then level is 0
+      {
+        return 0;
+      }
     }
 
     /**
@@ -498,8 +505,8 @@ public class BinaryTree<Item>
     {
       int leftSize = this.hasLeft() ? this.left.size : 0;
       int rightSize = this.hasRight() ? this.right.size : 0;
-      // TODO: Implement BinaryTree.Node.calculateSize()
-      return 0;
+      //left size + right size + node
+      return leftSize + rightSize + 1;
     }
 
     /**
@@ -514,8 +521,8 @@ public class BinaryTree<Item>
     {
       int leftHeight = this.hasLeft() ? this.left.height : -1;
       int rightHeight = this.hasRight() ? this.right.height : -1;
-      // TODO: Implement BinaryTree.Node.calculateHeight()
-      return 0;
+      //height of child node +1
+      return Math.max(leftHeight, rightHeight) + 1;
     }
 
     private void recalculateSizeAndHeight()
@@ -536,7 +543,16 @@ public class BinaryTree<Item>
      */
     public void printPreOrder()
     {
-      // TODO: Implement BinaryTree.Node.printPreOrder()
+      //
+      System.out.println(this.item);
+      if (this.hasLeft())
+      {
+        this.left.printPreOrder();
+      }
+      if (this.hasRight())
+      {
+        this.right.printPreOrder();
+      }
     }
 
     /**
@@ -547,7 +563,15 @@ public class BinaryTree<Item>
      */
     public void printInOrder()
     {
-      // TODO: Implement BinaryTree.Node.printInOrder()
+      if (this.hasLeft())
+      {
+        this.left.printInOrder();
+      }
+      System.out.println(this.item);
+      if (this.hasRight())
+      {
+        this.right.printInOrder();
+      }
     }
 
     /**
@@ -558,7 +582,15 @@ public class BinaryTree<Item>
      */
     public void printPostOrder()
     {
-      // TODO: Implement BinaryTree.Node.printPostOrder()
+      if (this.hasLeft())
+      {
+        this.left.printPostOrder();
+      }
+      if (this.hasRight())
+      {
+        this.right.printPostOrder();
+      }
+      System.out.println(this.item);
     }
 
     /**

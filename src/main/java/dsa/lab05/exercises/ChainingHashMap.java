@@ -9,6 +9,7 @@ import dsa.lib.TODO;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * A chaining hash map.
@@ -140,16 +141,45 @@ public class ChainingHashMap<Key, Value>
   @Override
   public void insert(MapItem<Key, Value> item)
   {
-    // TODO: Implement ChainingHashMap.insert(Item item)
-    throw new TODO();
+    //find correct chain using hashfunction
+    //update size
+    ArrayMap<Key, Value> chain = this.chain(item.key());
+    for (MapItem<Key, Value> containedItem : chain.items())
+    {
+      if ( Objects.equals(item.key(), containedItem.key()))
+      {
+        chain.insert(item);
+        return;
+      }
+    }
+    //resizing
+    if ((float) (this.size + 1) / this.chains.length > this.maxLoadFactor)
+    {
+      //double length of chain
+      this.resize(this.chains.length * 2);
+      this.insert(item);
+    }
+    else
+    {
+      this.size++;
+      chain.insert(item);
+    }
   }
 
   @Override
   public MapItem<Key, Value> remove(Key key)
     throws NoSuchElementException
   {
-    // TODO: Implement ChainingHashMap.remove(Key key)
-    throw new TODO();
+    MapItem<Key, Value> item = this.chain(key).remove(key);
+    this.size--;
+    int chainCount = this.chains.length;
+    //resize if only a 1/4 of the chain is full
+    if ((float) this.size / chainCount > this.maxLoadFactor / 4)
+    {
+      //half size of chain or set to 1
+      this.resize(Math.max(1, chainCount / 2 ));
+    }
+    return item;
   }
 
   //<editor-fold defaultstate="collapsed" desc="Iteration">

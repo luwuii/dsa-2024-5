@@ -5,6 +5,7 @@ import dsa.lab04.base.MapItem;
 import dsa.lab05.solutions.HashFunction;
 import dsa.lib.Iterators;
 import dsa.lib.TODO;
+import sun.security.x509.OtherName;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
@@ -117,16 +118,76 @@ public class ProbingHashMap<Key, Value>
   @Override
   public void insert(MapItem<Key, Value> newItem)
   {
-    // TODO: Implement ProbingHashMap.insert(MapItem newItem)
-    throw new TODO();
+    //find the ideal index for this item
+    int idealIndex = this.hashFunction.hash(newItem.key());
+
+    // find total no of indexes avaliable
+    int slotCount = this.items.length;
+
+    int availableIndex = -1;
+    //probe for first available index
+    for (int i = 0; i < slotCount ; i++)
+    {
+      int index = (idealIndex + i) % slotCount;
+      MapItem<Key, Value> item = this.items[index];
+      if (item == null)
+      {
+        if (availableIndex == -1)
+        {
+          availableIndex = index;
+        }
+        break;
+      }
+      if (item == this.REMOVED)
+      {
+        if (availableIndex == -1)
+        {
+          availableIndex = index;
+        }
+      }
+      else if (item.key().equals(newItem.key()))
+      {
+        {
+          this.items[index] = newItem;
+          return;
+        }
+
+      }
+
+    }
+    //resizing
+    if ((float) (this.size + 1) / slotCount > this.maxLoadFactor)
+    {
+      this.resize(slotCount * 2);
+      this.insert(newItem);
+    }
+    else
+    {
+      this.items[availableIndex] = newItem;
+      this.size++;
+    }
   }
 
   @Override
   public MapItem<Key, Value> find(Key key)
     throws NoSuchElementException
   {
-    // TODO: Implement ProbingHashMap.find(Key key)
-    throw new TODO();
+    int idealIndex = this.hashFunction.hash(key);
+    int slotCount = this.items.length;
+    for (int i = 0; i < slotCount; i++)
+    {
+      int index = (idealIndex + i) % slotCount;
+      MapItem<Key, Value> item = this.items[index];
+      if (item == null)
+      {
+        break;
+      }
+      if (item.key().equals(key))
+      {
+        return item;
+      }
+    }
+    throw new NoSuchElementException();
     // NOTE: If you find that no item has the given key, then write:
     //       throw new NoSuchElementException();
   }
@@ -135,8 +196,30 @@ public class ProbingHashMap<Key, Value>
   public MapItem<Key, Value> remove(Key key)
     throws NoSuchElementException
   {
-    // TODO: Implement ProbingHashMap.remove(Key key)
-    throw new TODO();
+    int idealIndex = this.hashFunction.hash(key);
+    int slotCount = this.items.length;
+    for (int i = 0; i < slotCount; i++)
+    {
+      int index = (idealIndex + i) % slotCount;
+      MapItem<Key, Value> item = this.items[index];
+      if (item == null)
+      {
+        break;
+      }
+      if (key.equals(item.key()))
+      {
+        //if key == to item key then replace the item at that index with REMOVED
+        this.items[index] = this.REMOVED;
+        this.size--;
+        //resize
+        if ((float) (this.size ) / slotCount < this.maxLoadFactor /4)
+        {
+          this.resize(Math.max(1, slotCount /2));
+        }
+        return item;
+      }
+    }
+    throw new NoSuchElementException();
     // NOTE: If you find that no item has the given key, then write:
     //       throw new NoSuchElementException();
   }
