@@ -259,8 +259,28 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value>
      */
     public Node<Key, Value> insert(MapItem<Key, Value> item)
     {
-      // TODO: Implement BinarySearchTree.Node.insert(Item item)
-      throw new TODO();
+      int compare = item.key().compareTo(this.item.key());
+      if (compare > 0)
+      {
+       if (this.right != null)
+       {
+         return this.right.insert(item);
+       }
+       this.tree.size++;
+       return this.right = new Node<>(this,this.tree,null, item, null);
+      }
+      if (compare < 0)
+      {
+        if (this.left != null)
+        {
+          return this.left.insert(item);
+        }
+        this.tree.size++;
+        return this.left = new Node<>(this,this.tree,null, item, null);
+      }
+
+      this.item = item;
+      return this;
     }
 
     /**
