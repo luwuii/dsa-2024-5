@@ -298,8 +298,28 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value>
      */
     public Node<Key, Value> remove()
     {
-      // TODO: Implement BinarySearchTree.Node.remove()
-      throw new TODO();
+      //check if node is not a leaf node
+      if (this.left == null && this.right == null)
+      {
+        //if node is root node
+        if (this.parent == null)
+        {
+          this.tree.root = null; //set root to null
+        }
+        //if leaf is left node of its parent set parents left node to null
+        if (this.parent.left == this)
+        {
+          this.parent.left = null;
+        }
+        else
+        {
+          this.parent.right = null;
+        }
+        this.tree.size--;
+        return this;
+      }
+      //if not a leaf node
+      
     }
 
     /**
