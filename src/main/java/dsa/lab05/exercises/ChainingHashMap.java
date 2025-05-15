@@ -141,6 +141,7 @@ public class ChainingHashMap<Key, Value>
   @Override
   public void insert(MapItem<Key, Value> item)
   {
+<<<<<<< Updated upstream
     //find correct chain using hashfunction
     //update size
     ArrayMap<Key, Value> chain = this.chain(item.key());
@@ -164,6 +165,25 @@ public class ChainingHashMap<Key, Value>
       this.size++;
       chain.insert(item);
     }
+=======
+    //find bucket/chain where the item belongs
+    ArrayMap<Key, Value> chain = this.chain(item.key());
+    //check if key already exists
+    //go through all contained items in chain.items()
+    for (MapItem<Key, Value> containedItem : chain.items())
+    {
+      // check if key of current item is equal to the key of a contained item
+      if (Objects.equals(item.key(), containedItem.key()))
+      {
+        //insert item into chain
+        chain.insert(item);
+        return;
+      }
+
+    }
+    //resizing
+    //if too large
+>>>>>>> Stashed changes
   }
 
   @Override
